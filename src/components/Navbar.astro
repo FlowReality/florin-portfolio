@@ -13,12 +13,13 @@
     type="button"
     aria-label="Open menu"
     aria-expanded="false"
+    aria-controls="mobile-menu"
   >
-    Menu
+    <span class="navbar__menu-icon" aria-hidden="true"></span>
   </button>
 </header>
 
-<div class="mobile-menu">
+<div class="mobile-menu" id="mobile-menu">
   <nav class="mobile-menu__nav">
     <a href="#career">Career</a>
     <a href="#tech">Tech Stack</a>
@@ -51,7 +52,6 @@
 
       toggle.setAttribute("aria-expanded", "true");
       toggle.setAttribute("aria-label", "Close menu");
-      toggle.textContent = "Close";
 
       document.body.style.overflow = "hidden";
 
@@ -82,7 +82,6 @@
 
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-label", "Open menu");
-      toggle.textContent = "Menu";
 
       document.body.style.overflow = "";
 
