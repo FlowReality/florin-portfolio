@@ -44,3 +44,106 @@
         <span>2024 — Present</span>
     </div>
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const aboutStatement = document.querySelector(".about__statement");
+  const aboutMuted = document.querySelector(".about__muted");
+  const aboutAccent = document.querySelector(".about__accent");
+  const aboutDescription = document.querySelector(".about__description");
+  const aboutEducation = document.querySelector(".about__education");
+
+  if (aboutStatement) {
+    gsap.fromTo(
+      aboutStatement,
+      {
+        opacity: 0,
+        y: 100,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: aboutStatement,
+          start: "top 80%",
+        },
+      }
+    );
+  }
+
+  if (aboutMuted) {
+    gsap.to(aboutMuted, {
+      color: "rgba(245, 245, 245, 1)",
+      scrollTrigger: {
+        trigger: aboutStatement,
+        start: "top 65%",
+        end: "bottom 45%",
+        scrub: 1,
+      },
+    });
+  }
+
+  if (aboutAccent) {
+    gsap.fromTo(
+      aboutAccent,
+      {
+        opacity: 0.25,
+      },
+      {
+        opacity: 1,
+        scrollTrigger: {
+          trigger: aboutStatement,
+          start: "top 60%",
+          end: "bottom 40%",
+          scrub: 1,
+        },
+      }
+    );
+  }
+
+  if (aboutDescription) {
+    gsap.fromTo(
+      aboutDescription,
+      {
+        opacity: 0,
+        y: 60,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: aboutDescription,
+          start: "top 82%",
+        },
+      }
+    );
+  }
+
+  if (aboutEducation) {
+    gsap.fromTo(
+      aboutEducation,
+      {
+        opacity: 0,
+        y: 40,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: aboutEducation,
+          start: "top 85%",
+        },
+      }
+    );
+  }
+</script>

@@ -1,25 +1,22 @@
 <section class="contact" id="contact">
-
   <div class="contact__header">
     <span>Contact</span>
     <span>Let's Talk</span>
   </div>
 
   <div class="contact__main">
-    <p class="contact__eyebrow">
-      Hai un progetto, un'idea o un'opportunità?
-    </p>
+    <p class="contact__eyebrow">Hai un progetto, un'idea o un'opportunità?</p>
 
-    <a
-      class="contact__email"
-      href="mailto:TUAMAIL"
-    >
+    <a class="contact__email" href="mailto:f.sandu@outlook.com">
       REALIZZIAMOLO.
+    </a>
+
+    <a class="contact__email-address" href="mailto:f.sandu@outlook.com">
+      f.sandu@outlook.com ↗
     </a>
   </div>
 
   <footer class="contact__footer">
-
     <div class="contact__copyright">
       <span>© 2026</span>
       <span>Florin Sandu</span>
@@ -43,10 +40,175 @@
       </a>
     </div>
 
-    <a class="contact__top" href="#">
-      Back to top ↑
-    </a>
-
+    <a class="contact__top" href="#"> Back to top ↑ </a>
   </footer>
-
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const initContactAnimation = () => {
+    const contact = document.querySelector(".contact");
+    const header = document.querySelector(".contact__header");
+    const eyebrow = document.querySelector(".contact__eyebrow");
+    const email = document.querySelector(".contact__email");
+    const emailAddress = document.querySelector(".contact__email-address");
+
+    if (!contact || !header || !eyebrow || !email || !emailAddress) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 769px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: contact,
+          start: "top 65%",
+          once: true,
+        },
+      });
+
+      tl.fromTo(
+        header,
+        {
+          opacity: 0,
+          y: 25,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+        },
+      );
+
+      tl.fromTo(
+        eyebrow,
+        {
+          opacity: 0,
+          y: 30,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+        },
+        "-=0.35",
+      );
+
+      tl.fromTo(
+        email,
+        {
+          opacity: 0,
+          y: 100,
+          scale: 0.96,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.2,
+          ease: "power4.out",
+        },
+        "-=0.35",
+      );
+      tl.fromTo(
+        emailAddress,
+        {
+          opacity: 0,
+          y: 15,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.5",
+      );
+    });
+
+    mm.add("(max-width: 768px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: contact,
+          start: "top 80%",
+          once: true,
+        },
+      });
+
+      tl.fromTo(
+        header,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+      );
+
+      tl.fromTo(
+        eyebrow,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.3",
+      );
+
+      tl.fromTo(
+        email,
+        {
+          opacity: 0,
+          y: 60,
+          scale: 0.98,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          ease: "power4.out",
+        },
+        "-=0.25",
+      );
+      tl.fromTo(
+        emailAddress,
+        {
+          opacity: 0,
+          y: 12,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.5,
+          ease: "power3.out",
+        },
+        "-=0.35",
+      );
+    });
+
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initContactAnimation);
+  } else {
+    initContactAnimation();
+  }
+</script>
