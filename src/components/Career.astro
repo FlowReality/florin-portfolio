@@ -129,40 +129,81 @@
       careerHeader,
       {
         opacity: 0,
+        y: 24,
+      },
+      {
+        opacity: 0.5,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: careerHeader,
+          start: "top 88%",
+          toggleActions: "restart none restart none",
+        },
+      },
+    );
+  }
+
+  if (careerIntro) {
+    const introTitle = careerIntro.querySelector("h2");
+    const eyebrow = careerIntro.querySelector(".career__eyebrow");
+    const client = careerIntro.querySelector(".career__client");
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: careerIntro,
+        start: "top 82%",
+        toggleActions: "restart none restart none",
+      },
+    });
+
+    tl.fromTo(
+      eyebrow,
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 0.5,
+        y: 0,
+        duration: 0.6,
+        ease: "power3.out",
+      },
+    );
+
+    tl.fromTo(
+      introTitle,
+      {
+        opacity: 0,
+        yPercent: 25,
+        skewY: 3,
+        filter: "blur(8px)",
+      },
+      {
+        opacity: 1,
+        yPercent: 0,
+        skewY: 0,
+        filter: "blur(0px)",
+        duration: 1.15,
+        ease: "power4.out",
+      },
+      "-=0.35",
+    );
+
+    tl.fromTo(
+      client,
+      {
+        opacity: 0,
         y: 30,
       },
       {
         opacity: 1,
         y: 0,
-        duration: 0.8,
+        duration: 0.75,
         ease: "power3.out",
-
-        scrollTrigger: {
-          trigger: careerHeader,
-          start: "top 85%",
-        },
-      }
-    );
-  }
-
-  if (careerIntro) {
-    gsap.fromTo(
-      careerIntro,
-      {
-        opacity: 0,
-        y: 70,
       },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.1,
-        ease: "power4.out",
-
-        scrollTrigger: {
-          trigger: careerIntro,
-          start: "top 80%",
-        },
-      }
+      "-=0.55",
     );
   }
 
@@ -172,68 +213,90 @@
     const description = item.querySelector("p");
     const stack = item.querySelector(".career-item__stack");
 
-    const timeline = gsap.timeline({
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: item,
-        start: "top 80%",
+        start: "top 84%",
+        toggleActions: "restart none restart none",
       },
     });
 
-    timeline.fromTo(
-      number,
+    tl.fromTo(
+      item,
       {
         opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 0.4,
-        y: 0,
-        duration: 0.5,
-      }
-    );
-
-    timeline.fromTo(
-      title,
-      {
-        opacity: 0,
-        y: 50,
+        y: 45,
       },
       {
         opacity: 1,
         y: 0,
+        duration: 0.85,
+        ease: "power3.out",
+      },
+    );
+
+    tl.fromTo(
+      number,
+      {
+        opacity: 0,
+        x: -15,
+      },
+      {
+        opacity: 0.4,
+        x: 0,
+        duration: 0.45,
+        ease: "power3.out",
+      },
+      "-=0.55",
+    );
+
+    tl.fromTo(
+      title,
+      {
+        opacity: 0,
+        y: 35,
+        skewY: 2,
+        filter: "blur(6px)",
+      },
+      {
+        opacity: 1,
+        y: 0,
+        skewY: 0,
+        filter: "blur(0px)",
         duration: 0.9,
         ease: "power4.out",
       },
-      "-=0.3"
+      "-=0.5",
     );
 
-    timeline.fromTo(
+    tl.fromTo(
       description,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 0.7,
-        y: 0,
-        duration: 0.7,
-        ease: "power3.out",
-      },
-      "-=0.5"
-    );
-
-    timeline.fromTo(
-      stack,
       {
         opacity: 0,
         y: 20,
       },
       {
+        opacity: 0.7,
+        y: 0,
+        duration: 0.65,
+        ease: "power3.out",
+      },
+      "-=0.5",
+    );
+
+    tl.fromTo(
+      stack,
+      {
+        opacity: 0,
+        y: 15,
+      },
+      {
         opacity: 0.45,
         y: 0,
-        duration: 0.6,
+        duration: 0.55,
+        ease: "power3.out",
       },
-      "-=0.4"
+      "-=0.4",
     );
   });
 
@@ -242,19 +305,21 @@
       careerTools,
       {
         opacity: 0,
-        y: 40,
+        y: 35,
+        filter: "blur(5px)",
       },
       {
         opacity: 1,
         y: 0,
-        duration: 0.9,
+        filter: "blur(0px)",
+        duration: 0.85,
         ease: "power3.out",
-
         scrollTrigger: {
           trigger: careerTools,
-          start: "top 85%",
+          start: "top 88%",
+          toggleActions: "restart none restart none",
         },
-      }
+      },
     );
   }
 </script>

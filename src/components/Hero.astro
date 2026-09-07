@@ -1,14 +1,11 @@
 <section class="hero">
-
   <div class="hero__top js-hero-meta">
     <span>Software Engineer</span>
     <span>Based in Italy</span>
   </div>
 
   <div class="hero__content">
-
     <h1 class="hero__title">
-
       <span class="hero__line">
         <span class="hero__word js-hero-word">FLORIN</span>
       </span>
@@ -16,27 +13,21 @@
       <span class="hero__line hero__line--right">
         <span class="hero__word js-hero-word">SANDU</span>
       </span>
-
     </h1>
 
     <div class="hero__bottom js-hero-meta">
+      <p>Building scalable applications and modern digital experiences.</p>
 
-      <p>
-        Building scalable applications and modern digital experiences.
-      </p>
-
-      <span class="hero__stack">
-        Java / Spring / Angular / TypeScript
-      </span>
-
+      <span class="hero__stack"> Java / Spring / Angular / TypeScript </span>
     </div>
-
   </div>
-
 </section>
 
 <script>
   import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const initHeroAnimation = () => {
     const words = document.querySelectorAll(".js-hero-word");
@@ -47,33 +38,47 @@
       defaults: {
         ease: "power4.out",
       },
+
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top 80%",
+        toggleActions: "restart none restart none",
+      },
     });
 
     tl.fromTo(
       words,
       {
         yPercent: 120,
+        rotateX: 12,
+        skewY: 5,
+        filter: "blur(10px)",
+        opacity: 0,
       },
       {
         yPercent: 0,
-        duration: 1.4,
-        stagger: 0.15,
-      }
+        rotateX: 0,
+        skewY: 0,
+        filter: "blur(0px)",
+        opacity: 1,
+        duration: 1.5,
+        stagger: 0.14,
+      },
     );
 
     tl.fromTo(
       meta,
       {
         opacity: 0,
-        y: 25,
+        y: 30,
       },
       {
         opacity: 1,
         y: 0,
         duration: 0.8,
-        stagger: 0.12,
+        stagger: 0.1,
       },
-      "-=0.7"
+      "-=0.65",
     );
 
     if (navbar) {
@@ -81,14 +86,14 @@
         navbar,
         {
           opacity: 0,
-          y: -20,
+          y: -25,
         },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
         },
-        "-=0.8"
+        "-=0.55",
       );
     }
   };
