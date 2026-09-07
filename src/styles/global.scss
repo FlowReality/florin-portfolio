@@ -1029,6 +1029,13 @@ button:focus-visible {
       }
     }
 
+    &__word {
+      display: inline-block;
+      white-space: nowrap;
+      // Keep italic glyphs inside the word's measured width.
+      padding-inline-end: 0.08em;
+    }
+
     &__details {
       grid-template-columns: 1fr;
 
