@@ -1,0 +1,127 @@
+<section class="tech-stack" id="tech">
+
+  <div class="tech-stack__header">
+    <span>Competenze</span>
+    <span>Tech Stack</span>
+  </div>
+
+  <div class="tech-stack__groups">
+
+    <article class="tech-group">
+      <span class="tech-group__number">01</span>
+
+      <div class="tech-group__content">
+        <h2>BACKEND</h2>
+
+        <p>
+          Java / Spring Boot / PHP / Python / C++ / C
+        </p>
+      </div>
+    </article>
+
+    <article class="tech-group">
+      <span class="tech-group__number">02</span>
+
+      <div class="tech-group__content">
+        <h2>FRONTEND</h2>
+
+        <p>
+          Angular / TypeScript / JavaScript / HTML / CSS /
+          React Native / Flutter
+        </p>
+      </div>
+    </article>
+
+    <article class="tech-group">
+      <span class="tech-group__number">03</span>
+
+      <div class="tech-group__content">
+        <h2>DATABASE</h2>
+
+        <p>
+          Oracle / PostgreSQL / MySQL / SQL
+        </p>
+      </div>
+    </article>
+
+    <article class="tech-group">
+      <span class="tech-group__number">04</span>
+
+      <div class="tech-group__content">
+        <h2>TOOLS</h2>
+
+        <p>
+          Docker / Jenkins / Git / GitLab / Maven / Gradle /
+          JUnit / Postman / Swagger / Jira / Linux / JBoss / WildFly
+        </p>
+      </div>
+    </article>
+
+  </div>
+
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const techGroups = document.querySelectorAll(".tech-group");
+
+  techGroups.forEach((group) => {
+    const title = group.querySelector("h2");
+    const text = group.querySelector("p");
+    const number = group.querySelector(".tech-group__number");
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: group,
+        start: "top 82%",
+      },
+    });
+
+    tl.fromTo(
+      number,
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 0.4,
+        y: 0,
+        duration: 0.5,
+      }
+    );
+
+    tl.fromTo(
+      title,
+      {
+        opacity: 0,
+        y: 70,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power4.out",
+      },
+      "-=0.3"
+    );
+
+    tl.fromTo(
+      text,
+      {
+        opacity: 0,
+        y: 25,
+      },
+      {
+        opacity: 0.65,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out",
+      },
+      "-=0.5"
+    );
+  });
+</script>

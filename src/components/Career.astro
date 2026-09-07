@@ -1,0 +1,260 @@
+<section class="career" id="career">
+  <div class="career__header">
+    <span>Esperienza</span>
+    <span>2022 — Presente</span>
+  </div>
+
+  <div class="career__intro">
+    <div>
+      <p class="career__eyebrow">Fata Informatica</p>
+
+      <h2>
+        FULL-STACK<br />
+        DEVELOPER
+      </h2>
+    </div>
+
+    <div class="career__client">
+      <span>Cliente</span>
+
+      <p>
+        MAECI<br />
+        Ministero degli Affari Esteri<br />
+        e della Cooperazione Internazionale
+      </p>
+    </div>
+  </div>
+
+  <div class="career__list">
+    <!-- 01 -->
+
+    <article class="career-item">
+      <span class="career-item__number">01</span>
+
+      <div class="career-item__content">
+        <h3>Statistiche Elettorali</h3>
+
+        <p>
+          Sviluppo di un'applicazione web per la visualizzazione e l'analisi di
+          statistiche elettorali attraverso dashboard e grafici interattivi.
+        </p>
+
+        <div class="career-item__stack">Spring / Angular / Chart.js</div>
+      </div>
+    </article>
+
+    <!-- 02 -->
+
+    <article class="career-item">
+      <span class="career-item__number">02</span>
+
+      <div class="career-item__content">
+        <h3>Piattaforma AIRE</h3>
+
+        <p>
+          Riscrittura completa della piattaforma per la gestione delle richieste
+          di iscrizione AIRE e cambio di residenza, occupandomi dello sviluppo
+          frontend in Angular, backend Spring, API REST e accesso ai dati
+          tramite query SQL.
+        </p>
+
+        <div class="career-item__stack">Angular / Spring / REST API / SQL</div>
+      </div>
+    </article>
+
+    <!-- 03 -->
+
+    <article class="career-item">
+      <span class="career-item__number">03</span>
+
+      <div class="career-item__content">
+        <h3>FastIt</h3>
+
+        <p>
+          Manutenzione evolutiva e correttiva, bug fixing e sviluppo di nuove
+          funzionalità sul portale pubblico FastIt, dedicato ai servizi
+          consolari online del MAECI.
+        </p>
+
+        <div class="career-item__stack">
+          Manutenzione / Bug Fixing / Sviluppo funzionalità
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+
+    <article class="career-item">
+      <span class="career-item__number">04</span>
+
+      <div class="career-item__content">
+        <h3>Gestione Voto Estero</h3>
+
+        <p>
+          Riscrittura e modernizzazione del sistema per la gestione del voto
+          degli italiani all'estero, con sviluppo frontend e backend, API REST,
+          query SQL complesse e stored procedure.
+        </p>
+
+        <div class="career-item__stack">
+          Java 17 / Spring Boot / Angular 21 / Oracle
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="career__tools">
+    <span> Strumenti & Ambiente </span>
+
+    <p>
+      Maven / Gradle / JUnit / Docker / Jenkins / Git / GitLab / SVN / Postman /
+      Swagger / Jira / Linux / JBoss / WildFly
+    </p>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const careerHeader = document.querySelector(".career__header");
+  const careerIntro = document.querySelector(".career__intro");
+  const careerItems = document.querySelectorAll(".career-item");
+  const careerTools = document.querySelector(".career__tools");
+
+  if (careerHeader) {
+    gsap.fromTo(
+      careerHeader,
+      {
+        opacity: 0,
+        y: 30,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+
+        scrollTrigger: {
+          trigger: careerHeader,
+          start: "top 85%",
+        },
+      }
+    );
+  }
+
+  if (careerIntro) {
+    gsap.fromTo(
+      careerIntro,
+      {
+        opacity: 0,
+        y: 70,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.1,
+        ease: "power4.out",
+
+        scrollTrigger: {
+          trigger: careerIntro,
+          start: "top 80%",
+        },
+      }
+    );
+  }
+
+  careerItems.forEach((item) => {
+    const number = item.querySelector(".career-item__number");
+    const title = item.querySelector("h3");
+    const description = item.querySelector("p");
+    const stack = item.querySelector(".career-item__stack");
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: item,
+        start: "top 80%",
+      },
+    });
+
+    timeline.fromTo(
+      number,
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 0.4,
+        y: 0,
+        duration: 0.5,
+      }
+    );
+
+    timeline.fromTo(
+      title,
+      {
+        opacity: 0,
+        y: 50,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power4.out",
+      },
+      "-=0.3"
+    );
+
+    timeline.fromTo(
+      description,
+      {
+        opacity: 0,
+        y: 30,
+      },
+      {
+        opacity: 0.7,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out",
+      },
+      "-=0.5"
+    );
+
+    timeline.fromTo(
+      stack,
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 0.45,
+        y: 0,
+        duration: 0.6,
+      },
+      "-=0.4"
+    );
+  });
+
+  if (careerTools) {
+    gsap.fromTo(
+      careerTools,
+      {
+        opacity: 0,
+        y: 40,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
+
+        scrollTrigger: {
+          trigger: careerTools,
+          start: "top 85%",
+        },
+      }
+    );
+  }
+</script>
