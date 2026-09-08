@@ -1,7 +1,7 @@
 <header class="navbar">
   <a class="logo" href="/">FS</a>
 
-  <nav class="navbar__desktop">
+  <nav class="navbar__desktop" aria-label="Main navigation">
     <a href="#career">Career</a>
     <a href="#tech">Tech Stack</a>
     <a href="#about">About</a>
@@ -19,8 +19,8 @@
   </button>
 </header>
 
-<div class="mobile-menu" id="mobile-menu">
-  <nav class="mobile-menu__nav">
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
+  <nav class="mobile-menu__nav" aria-label="Mobile navigation">
     <a href="#career">Career</a>
     <a href="#tech">Tech Stack</a>
     <a href="#about">About</a>
@@ -34,13 +34,17 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
   const toggle = document.querySelector<HTMLButtonElement>(
     ".navbar__menu-toggle",
   );
 
   const mobileMenu = document.querySelector<HTMLElement>(".mobile-menu");
 
-  const links = document.querySelectorAll<HTMLAnchorElement>(
+  const mobileLinks = document.querySelectorAll<HTMLAnchorElement>(
     ".mobile-menu__nav a",
   );
 
@@ -48,12 +52,35 @@
     let isOpen = false;
 
     const openMenu = () => {
+      if (isOpen) return;
+
       isOpen = true;
+
+      gsap.killTweensOf(mobileMenu);
+      gsap.killTweensOf(mobileLinks);
 
       toggle.setAttribute("aria-expanded", "true");
       toggle.setAttribute("aria-label", "Close menu");
 
+      mobileMenu.setAttribute("aria-hidden", "false");
+      mobileMenu.inert = false;
+
       document.body.style.overflow = "hidden";
+
+      if (prefersReducedMotion) {
+        gsap.set(mobileMenu, {
+          autoAlpha: 1,
+        });
+
+        gsap.set(mobileLinks, {
+          y: 0,
+          opacity: 1,
+        });
+
+        mobileLinks[0]?.focus();
+
+        return;
+      }
 
       gsap.to(mobileMenu, {
         autoAlpha: 1,
@@ -62,7 +89,7 @@
       });
 
       gsap.fromTo(
-        links,
+        mobileLinks,
         {
           y: 50,
           opacity: 0,
@@ -73,22 +100,51 @@
           duration: 0.6,
           stagger: 0.08,
           ease: "power4.out",
+
+          onComplete: () => {
+            mobileLinks[0]?.focus();
+          },
         },
       );
     };
 
-    const closeMenu = () => {
+    const closeMenu = (restoreFocus = true) => {
+      if (!isOpen) return;
+
       isOpen = false;
+
+      gsap.killTweensOf(mobileMenu);
+      gsap.killTweensOf(mobileLinks);
 
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-label", "Open menu");
 
       document.body.style.overflow = "";
 
+      const finishClose = () => {
+        mobileMenu.setAttribute("aria-hidden", "true");
+        mobileMenu.inert = true;
+
+        if (restoreFocus) {
+          toggle.focus();
+        }
+      };
+
+      if (prefersReducedMotion) {
+        gsap.set(mobileMenu, {
+          autoAlpha: 0,
+        });
+
+        finishClose();
+
+        return;
+      }
+
       gsap.to(mobileMenu, {
         autoAlpha: 0,
         duration: 0.35,
         ease: "power3.inOut",
+        onComplete: finishClose,
       });
     };
 
@@ -96,8 +152,10 @@
       isOpen ? closeMenu() : openMenu();
     });
 
-    links.forEach((link) => {
-      link.addEventListener("click", closeMenu);
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        closeMenu(false);
+      });
     });
 
     document.addEventListener("keydown", (event) => {
@@ -108,7 +166,7 @@
 
     window.addEventListener("resize", () => {
       if (window.innerWidth > 768 && isOpen) {
-        closeMenu();
+        closeMenu(false);
       }
     });
   }
@@ -116,9 +174,25 @@
   const desktopLinks =
     document.querySelectorAll<HTMLAnchorElement>(".navbar__desktop a");
 
+  const mobileNavLinks = document.querySelectorAll<HTMLAnchorElement>(
+    ".mobile-menu__nav a",
+  );
+
   const setActiveLink = (href: string) => {
     desktopLinks.forEach((link) => {
       link.classList.toggle("is-active", link.getAttribute("href") === href);
+    });
+
+    mobileNavLinks.forEach((link) => {
+      const isActive = link.getAttribute("href") === href;
+
+      link.classList.toggle("is-active", isActive);
+
+      if (isActive) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
     });
   };
 
@@ -131,6 +205,7 @@
       trigger: section,
       start: "top 45%",
       end: "bottom 45%",
+      invalidateOnRefresh: true,
 
       onEnter: () => setActiveLink(`#${id}`),
       onEnterBack: () => setActiveLink(`#${id}`),

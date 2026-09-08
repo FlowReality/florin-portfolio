@@ -1,75 +1,143 @@
 ---
 import "../styles/global.scss";
 
-const { title = "Florin Sandu — Software Engineer" } = Astro.props;
+const siteUrl = "https://florin-portfolio-fs.vercel.app";
+
+const {
+	title = "Florin Sandu — Software Engineer",
+	description = "Portfolio di Florin Sandu, Software Engineer e Full-Stack Developer specializzato in Java, Spring Boot, Angular e sviluppo di applicazioni web enterprise.",
+} = Astro.props;
+
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
+
+const ogImage = `${siteUrl}/og-image.png`;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"@id": `${siteUrl}/#person`,
+	name: "Florin Sandu",
+	url: siteUrl,
+	image: ogImage,
+	jobTitle: "Software Engineer",
+	description,
+	sameAs: [
+		"https://www.linkedin.com/in/florin-sandu",
+		"https://github.com/FlowReality",
+	],
+	knowsAbout: [
+		"Java",
+		"Spring Boot",
+		"Angular",
+		"TypeScript",
+		"JavaScript",
+		"REST API",
+		"Oracle",
+		"PostgreSQL",
+		"MySQL",
+		"SQL",
+		"Docker",
+		"Git",
+	],
+};
 ---
 
 <!doctype html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<head>
+		<meta charset="UTF-8" />
 
-    <title>{title}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta
-      name="description"
-      content="Portfolio di Florin Sandu, Software Engineer."
-    />
+		<title>{title}</title>
 
-    <meta name="author" content="Florin Sandu" />
+		<meta name="description" content={description} />
 
-    <meta name="robots" content="index, follow" />
+		<meta name="author" content="Florin Sandu" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Florin Sandu — Software Engineer" />
-    <meta
-      property="og:description"
-      content="Portfolio di Florin Sandu, Software Engineer specializzato in Java, Spring Boot, Angular e applicazioni web enterprise."
-    />
-    <meta property="og:image" content="/og-image.png" />
+		<meta name="robots" content="index, follow" />
 
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Florin Sandu — Software Engineer" />
-    <meta
-      name="twitter:description"
-      content="Portfolio di Florin Sandu, Software Engineer specializzato in Java, Spring Boot, Angular e applicazioni web enterprise."
-    />
-    <meta name="twitter:image" content="/og-image.png" />
+		<meta name="theme-color" content="#0a0a0a" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href={canonicalUrl} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+		<meta property="og:site_name" content="Florin Sandu" />
 
-  <body>
-    <div class="cursor" aria-hidden="true">
-      <div class="cursor__code">
-        <span>{}</span>
-        <span>&lt;/&gt;</span>
-        <span>01</span>
-        <span>λ</span>
-        <span>[]</span>
-        <span>::</span>
-        <span>#</span>
-        <span>&lt;/&gt;</span>
-      </div>
-      <div class="cursor__label">MAIL ↗</div>
-    </div>
-    <canvas class="cursor-trail-canvas" aria-hidden="true"></canvas>
-    <slot />
-    <script>
-      import "../scripts/smoothScroll";
-      import "../scripts/cursor";
-    </script>
-  </body>
+		<meta property="og:locale" content="it_IT" />
+
+		<meta property="og:title" content={title} />
+
+		<meta property="og:description" content={description} />
+
+		<meta property="og:url" content={canonicalUrl} />
+
+		<meta property="og:image" content={ogImage} />
+
+		<meta
+			property="og:image:alt"
+			content="Portfolio di Florin Sandu — Software Engineer"
+		/>
+
+		<!-- Twitter / X -->
+		<meta name="twitter:card" content="summary_large_image" />
+
+		<meta name="twitter:title" content={title} />
+
+		<meta name="twitter:description" content={description} />
+
+		<meta name="twitter:image" content={ogImage} />
+
+		<meta
+			name="twitter:image:alt"
+			content="Portfolio di Florin Sandu — Software Engineer"
+		/>
+
+		<!-- Favicon -->
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Structured Data -->
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(structuredData)}
+		/>
+	</head>
+
+	<body>
+		<div class="cursor" aria-hidden="true">
+			<div class="cursor__code">
+				<span>{}</span>
+				<span>&lt;/&gt;</span>
+				<span>01</span>
+				<span>λ</span>
+				<span>[]</span>
+				<span>::</span>
+				<span>#</span>
+				<span>&lt;/&gt;</span>
+			</div>
+
+			<div class="cursor__label">MAIL ↗</div>
+		</div>
+
+		<canvas class="cursor-trail-canvas" aria-hidden="true"></canvas>
+
+		<slot />
+
+		<script>
+			import "../scripts/smoothScroll";
+			import "../scripts/cursor";
+		</script>
+	</body>
 </html>

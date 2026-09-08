@@ -30,9 +30,37 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const initHeroAnimation = () => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     const words = document.querySelectorAll(".js-hero-word");
     const meta = document.querySelectorAll(".js-hero-meta");
     const navbar = document.querySelector(".navbar");
+
+    if (prefersReducedMotion) {
+      gsap.set(words, {
+        opacity: 1,
+        yPercent: 0,
+        rotateX: 0,
+        skewY: 0,
+        filter: "blur(0px)",
+      });
+
+      gsap.set(meta, {
+        opacity: 1,
+        y: 0,
+      });
+
+      if (navbar) {
+        gsap.set(navbar, {
+          opacity: 1,
+          y: 0,
+        });
+      }
+
+      return;
+    }
 
     const tl = gsap.timeline({
       defaults: {
@@ -43,6 +71,7 @@
         trigger: ".hero",
         start: "top 80%",
         toggleActions: "restart none restart none",
+        invalidateOnRefresh: true,
       },
     });
 

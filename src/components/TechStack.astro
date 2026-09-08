@@ -87,104 +87,116 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const canUseInteractiveMotion =
+    window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion;
+
   const techGroups = document.querySelectorAll(".tech-group");
 
-  techGroups.forEach((group) => {
-    const title = group.querySelector("h2");
-    const text = group.querySelector("p");
-    const number = group.querySelector(".tech-group__number");
+  if (!prefersReducedMotion) {
+    techGroups.forEach((group) => {
+      const title = group.querySelector("h2");
+      const text = group.querySelector("p");
+      const number = group.querySelector(".tech-group__number");
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: group,
-        start: "top 82%",
-        toggleActions: "restart none restart none",
-      },
-    });
-
-    tl.fromTo(
-      number,
-      {
-        opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 0.4,
-        y: 0,
-        duration: 0.5,
-      },
-    );
-
-    tl.fromTo(
-      title,
-      {
-        opacity: 0,
-        y: 70,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power4.out",
-      },
-      "-=0.3",
-    );
-
-    tl.fromTo(
-      text,
-      {
-        opacity: 0,
-        y: 25,
-      },
-      {
-        opacity: 0.65,
-        y: 0,
-        duration: 0.7,
-        ease: "power3.out",
-      },
-      "-=0.5",
-    );
-  });
-
-  const skillGroups = document.querySelectorAll<HTMLElement>(
-    ".tech-group__skills",
-  );
-
-  skillGroups.forEach((group) => {
-    const skills = group.querySelectorAll<HTMLElement>("span");
-
-    skills.forEach((skill) => {
-      skill.addEventListener("mouseenter", () => {
-        group.classList.add("has-active-skill");
-
-        skills.forEach((otherSkill) => {
-          otherSkill.classList.toggle("is-active", otherSkill === skill);
-        });
-
-        gsap.to(skill, {
-          y: -5,
-          scale: 1.06,
-          duration: 0.35,
-          ease: "power3.out",
-          overwrite: true,
-        });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: group,
+          start: "top 82%",
+          toggleActions: "restart none restart none",
+          invalidateOnRefresh: true,
+        },
       });
 
-      skill.addEventListener("mouseleave", () => {
-        group.classList.remove("has-active-skill");
-
-        skills.forEach((otherSkill) => {
-          otherSkill.classList.remove("is-active");
-        });
-
-        gsap.to(skill, {
+      tl.fromTo(
+        number,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 0.4,
           y: 0,
-          scale: 1,
-          duration: 0.55,
+          duration: 0.5,
+        },
+      );
+
+      tl.fromTo(
+        title,
+        {
+          opacity: 0,
+          y: 70,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power4.out",
+        },
+        "-=0.3",
+      );
+
+      tl.fromTo(
+        text,
+        {
+          opacity: 0,
+          y: 25,
+        },
+        {
+          opacity: 0.65,
+          y: 0,
+          duration: 0.7,
           ease: "power3.out",
-          overwrite: true,
+        },
+        "-=0.5",
+      );
+    });
+  }
+
+  if (canUseInteractiveMotion) {
+    const skillGroups = document.querySelectorAll<HTMLElement>(
+      ".tech-group__skills",
+    );
+
+    skillGroups.forEach((group) => {
+      const skills = group.querySelectorAll<HTMLElement>("span");
+
+      skills.forEach((skill) => {
+        skill.addEventListener("mouseenter", () => {
+          group.classList.add("has-active-skill");
+
+          skills.forEach((otherSkill) => {
+            otherSkill.classList.toggle("is-active", otherSkill === skill);
+          });
+
+          gsap.to(skill, {
+            y: -5,
+            scale: 1.06,
+            duration: 0.35,
+            ease: "power3.out",
+            overwrite: true,
+          });
+        });
+
+        skill.addEventListener("mouseleave", () => {
+          group.classList.remove("has-active-skill");
+
+          skills.forEach((otherSkill) => {
+            otherSkill.classList.remove("is-active");
+          });
+
+          gsap.to(skill, {
+            y: 0,
+            scale: 1,
+            duration: 0.55,
+            ease: "power3.out",
+            overwrite: true,
+          });
         });
       });
     });
-  });
+  }
 </script>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://florin-portfolio-fs.vercel.app/sitemap-index.xml

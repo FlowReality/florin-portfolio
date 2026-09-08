@@ -119,303 +119,317 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const canUseInteractiveMotion =
+    window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion;
+
   const careerHeader = document.querySelector(".career__header");
   const careerIntro = document.querySelector(".career__intro");
   const careerItems = document.querySelectorAll(".career-item");
   const careerTools = document.querySelector(".career__tools");
 
-  if (careerHeader) {
-    gsap.fromTo(
-      careerHeader,
-      {
-        opacity: 0,
-        y: 24,
-      },
-      {
-        opacity: 0.5,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: careerHeader,
-          start: "top 88%",
-          toggleActions: "restart none restart none",
+  if (!prefersReducedMotion) {
+    if (careerHeader) {
+      gsap.fromTo(
+        careerHeader,
+        {
+          opacity: 0,
+          y: 24,
         },
-      },
-    );
-  }
-
-  if (careerIntro) {
-    const introTitle = careerIntro.querySelector("h2");
-    const eyebrow = careerIntro.querySelector(".career__eyebrow");
-    const client = careerIntro.querySelector(".career__client");
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: careerIntro,
-        start: "top 82%",
-        toggleActions: "restart none restart none",
-      },
-    });
-
-    tl.fromTo(
-      eyebrow,
-      {
-        opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 0.5,
-        y: 0,
-        duration: 0.6,
-        ease: "power3.out",
-      },
-    );
-
-    tl.fromTo(
-      introTitle,
-      {
-        opacity: 0,
-        yPercent: 25,
-        skewY: 3,
-        filter: "blur(8px)",
-      },
-      {
-        opacity: 1,
-        yPercent: 0,
-        skewY: 0,
-        filter: "blur(0px)",
-        duration: 1.15,
-        ease: "power4.out",
-      },
-      "-=0.35",
-    );
-
-    tl.fromTo(
-      client,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.75,
-        ease: "power3.out",
-      },
-      "-=0.55",
-    );
-  }
-
-  careerItems.forEach((item) => {
-    const number = item.querySelector(".career-item__number");
-    const title = item.querySelector("h3");
-    const description = item.querySelector("p");
-    const stack = item.querySelector(".career-item__stack");
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: item,
-        start: "top 84%",
-        toggleActions: "restart none restart none",
-      },
-    });
-
-    tl.fromTo(
-      item,
-      {
-        opacity: 0,
-        y: 45,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.85,
-        ease: "power3.out",
-      },
-    );
-
-    tl.fromTo(
-      number,
-      {
-        opacity: 0,
-        x: -15,
-      },
-      {
-        opacity: 0.4,
-        x: 0,
-        duration: 0.45,
-        ease: "power3.out",
-      },
-      "-=0.55",
-    );
-
-    tl.fromTo(
-      title,
-      {
-        opacity: 0,
-        y: 35,
-        skewY: 2,
-        filter: "blur(6px)",
-      },
-      {
-        opacity: 1,
-        y: 0,
-        skewY: 0,
-        filter: "blur(0px)",
-        duration: 0.9,
-        ease: "power4.out",
-      },
-      "-=0.5",
-    );
-
-    tl.fromTo(
-      description,
-      {
-        opacity: 0,
-        y: 20,
-      },
-      {
-        opacity: 0.7,
-        y: 0,
-        duration: 0.65,
-        ease: "power3.out",
-      },
-      "-=0.5",
-    );
-
-    tl.fromTo(
-      stack,
-      {
-        opacity: 0,
-        y: 15,
-      },
-      {
-        opacity: 0.45,
-        y: 0,
-        duration: 0.55,
-        ease: "power3.out",
-      },
-      "-=0.4",
-    );
-  });
-
-  if (careerTools) {
-    gsap.fromTo(
-      careerTools,
-      {
-        opacity: 0,
-        y: 35,
-        filter: "blur(5px)",
-      },
-      {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-        duration: 0.85,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: careerTools,
-          start: "top 88%",
-          toggleActions: "restart none restart none",
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: careerHeader,
+            start: "top 88%",
+            toggleActions: "restart none restart none",
+            invalidateOnRefresh: true,
+          },
         },
-      },
-    );
-  }
+      );
+    }
 
-  const careerHoverItems =
-    document.querySelectorAll<HTMLElement>(".career-item");
+    if (careerIntro) {
+      const introTitle = careerIntro.querySelector("h2");
+      const eyebrow = careerIntro.querySelector(".career__eyebrow");
+      const client = careerIntro.querySelector(".career__client");
 
-  careerHoverItems.forEach((item) => {
-    const title = item.querySelector<HTMLElement>("h3");
-    const number = item.querySelector<HTMLElement>(".career-item__number");
-    const stack = item.querySelector<HTMLElement>(".career-item__stack");
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: careerIntro,
+          start: "top 82%",
+          toggleActions: "restart none restart none",
+          invalidateOnRefresh: true,
+        },
+      });
 
-    const moveX = gsap.quickTo(item, "--mouse-x", {
-      duration: 0.35,
-      ease: "power3.out",
-    });
+      tl.fromTo(
+        eyebrow,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+      );
 
-    const moveY = gsap.quickTo(item, "--mouse-y", {
-      duration: 0.35,
-      ease: "power3.out",
-    });
+      tl.fromTo(
+        introTitle,
+        {
+          opacity: 0,
+          yPercent: 25,
+          skewY: 3,
+          filter: "blur(8px)",
+        },
+        {
+          opacity: 1,
+          yPercent: 0,
+          skewY: 0,
+          filter: "blur(0px)",
+          duration: 1.15,
+          ease: "power4.out",
+        },
+        "-=0.35",
+      );
 
-    item.addEventListener("mousemove", (event) => {
-      const rect = item.getBoundingClientRect();
+      tl.fromTo(
+        client,
+        {
+          opacity: 0,
+          y: 30,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          ease: "power3.out",
+        },
+        "-=0.55",
+      );
+    }
 
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+    careerItems.forEach((item) => {
+      const number = item.querySelector(".career-item__number");
+      const title = item.querySelector("h3");
+      const description = item.querySelector("p");
+      const stack = item.querySelector(".career-item__stack");
 
-      moveX(x);
-      moveY(y);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: "top 84%",
+          toggleActions: "restart none restart none",
+          invalidateOnRefresh: true,
+        },
+      });
 
-      // Movimento leggerissimo del contenuto
-      const normalizedX = x / rect.width - 0.5;
-      const normalizedY = y / rect.height - 0.5;
+      tl.fromTo(
+        item,
+        {
+          opacity: 0,
+          y: 45,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.85,
+          ease: "power3.out",
+        },
+      );
 
-      if (title) {
-        gsap.to(title, {
-          x: normalizedX * 12,
-          y: normalizedY * 6,
+      tl.fromTo(
+        number,
+        {
+          opacity: 0,
+          x: -15,
+        },
+        {
+          opacity: 0.4,
+          x: 0,
           duration: 0.45,
           ease: "power3.out",
-          overwrite: true,
-        });
-      }
+        },
+        "-=0.55",
+      );
 
-      if (number) {
-        gsap.to(number, {
-          x: normalizedX * -8,
-          y: normalizedY * -4,
+      tl.fromTo(
+        title,
+        {
+          opacity: 0,
+          y: 35,
+          skewY: 2,
+          filter: "blur(6px)",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          skewY: 0,
+          filter: "blur(0px)",
+          duration: 0.9,
+          ease: "power4.out",
+        },
+        "-=0.5",
+      );
+
+      tl.fromTo(
+        description,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 0.7,
+          y: 0,
+          duration: 0.65,
+          ease: "power3.out",
+        },
+        "-=0.5",
+      );
+
+      tl.fromTo(
+        stack,
+        {
+          opacity: 0,
+          y: 15,
+        },
+        {
+          opacity: 0.45,
+          y: 0,
           duration: 0.55,
           ease: "power3.out",
-          overwrite: true,
-        });
-      }
-
-      if (stack) {
-        gsap.to(stack, {
-          x: normalizedX * 7,
-          duration: 0.5,
-          ease: "power3.out",
-          overwrite: true,
-        });
-      }
+        },
+        "-=0.4",
+      );
     });
 
-    item.addEventListener("mouseenter", () => {
-      item.classList.add("is-hovered");
-    });
-
-    item.addEventListener("mouseleave", () => {
-      item.classList.remove("is-hovered");
-
-      if (title) {
-        gsap.to(title, {
-          x: 0,
+    if (careerTools) {
+      gsap.fromTo(
+        careerTools,
+        {
+          opacity: 0,
+          y: 35,
+          filter: "blur(5px)",
+        },
+        {
+          opacity: 1,
           y: 0,
-          duration: 0.7,
+          filter: "blur(0px)",
+          duration: 0.85,
           ease: "power3.out",
-        });
-      }
+          scrollTrigger: {
+            trigger: careerTools,
+            start: "top 88%",
+            toggleActions: "restart none restart none",
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    }
+  }
 
-      if (number) {
-        gsap.to(number, {
-          x: 0,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-        });
-      }
+  if (canUseInteractiveMotion) {
+    const careerHoverItems =
+      document.querySelectorAll<HTMLElement>(".career-item");
 
-      if (stack) {
-        gsap.to(stack, {
-          x: 0,
-          duration: 0.7,
-          ease: "power3.out",
-        });
-      }
+    careerHoverItems.forEach((item) => {
+      const title = item.querySelector<HTMLElement>("h3");
+      const number = item.querySelector<HTMLElement>(".career-item__number");
+      const stack = item.querySelector<HTMLElement>(".career-item__stack");
+
+      // Spotlight
+      const moveSpotlightX = gsap.quickTo(item, "--mouse-x", {
+        duration: 0.35,
+        ease: "power3.out",
+      });
+
+      const moveSpotlightY = gsap.quickTo(item, "--mouse-y", {
+        duration: 0.35,
+        ease: "power3.out",
+      });
+
+      // Movimento titolo
+      const moveTitleX = title
+        ? gsap.quickTo(title, "x", {
+            duration: 0.45,
+            ease: "power3.out",
+          })
+        : null;
+
+      const moveTitleY = title
+        ? gsap.quickTo(title, "y", {
+            duration: 0.45,
+            ease: "power3.out",
+          })
+        : null;
+
+      // Movimento numero
+      const moveNumberX = number
+        ? gsap.quickTo(number, "x", {
+            duration: 0.55,
+            ease: "power3.out",
+          })
+        : null;
+
+      const moveNumberY = number
+        ? gsap.quickTo(number, "y", {
+            duration: 0.55,
+            ease: "power3.out",
+          })
+        : null;
+
+      // Movimento stack
+      const moveStackX = stack
+        ? gsap.quickTo(stack, "x", {
+            duration: 0.5,
+            ease: "power3.out",
+          })
+        : null;
+
+      item.addEventListener("mousemove", (event) => {
+        const rect = item.getBoundingClientRect();
+
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        moveSpotlightX(x);
+        moveSpotlightY(y);
+
+        const normalizedX = x / rect.width - 0.5;
+        const normalizedY = y / rect.height - 0.5;
+
+        moveTitleX?.(normalizedX * 12);
+        moveTitleY?.(normalizedY * 6);
+
+        moveNumberX?.(normalizedX * -8);
+        moveNumberY?.(normalizedY * -4);
+
+        moveStackX?.(normalizedX * 7);
+      });
+
+      item.addEventListener("mouseenter", () => {
+        item.classList.add("is-hovered");
+      });
+
+      item.addEventListener("mouseleave", () => {
+        item.classList.remove("is-hovered");
+
+        moveTitleX?.(0);
+        moveTitleY?.(0);
+
+        moveNumberX?.(0);
+        moveNumberY?.(0);
+
+        moveStackX?.(0);
+      });
     });
-  });
+  }
 </script>

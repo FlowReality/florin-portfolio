@@ -1,48 +1,47 @@
 <section class="about" id="about">
-    <div class="about__header">
-        <span>About</span>
-        <span>Who I Am</span>
+  <div class="about__header">
+    <span>About</span>
+    <span>Who I Am</span>
+  </div>
+
+  <div class="about__statement">
+    <p>
+      DALLA LOGICA
+      <span class="about__muted"> ALL'INTERFACCIA.</span><br />
+
+      UN'IDEA,
+      <span class="about__accent">TRASFORMATA IN SOFTWARE.</span>
+    </p>
+  </div>
+
+  <div class="about__details">
+    <div class="about__spacer"></div>
+
+    <div class="about__description">
+      <p>
+        Sono un Full-Stack Developer con oltre 4 anni di esperienza nello
+        sviluppo, nella manutenzione e nella modernizzazione di applicazioni web
+        enterprise.
+      </p>
+
+      <p>
+        Lavoro principalmente con Java, Spring Boot e Angular, occupandomi
+        dell'intero ciclo di sviluppo: dal backend e dalle API REST fino al
+        frontend e all'integrazione con database relazionali.
+      </p>
+    </div>
+  </div>
+
+  <div class="about__education">
+    <span class="about__label">Education</span>
+
+    <div>
+      <h3>Ingegneria Informatica</h3>
+      <p>Università degli Studi Roma Tre</p>
     </div>
 
-    <div class="about__statement">
-        <p>
-            <span class="about__word">DALLA</span> <span class="about__word">LOGICA</span>
-            <span class="about__muted"> <span class="about__word">ALL'INTERFACCIA.</span></span><br />
-
-            <span class="about__word">UN'IDEA,</span>
-            <span class="about__accent"><span class="about__word">TRASFORMATA</span> <span class="about__word">IN</span> <span class="about__word">SOFTWARE.</span></span>
-        </p>
-    </div>
-
-    <div class="about__details">
-        <div class="about__spacer"></div>
-
-        <div class="about__description">
-            <p>
-                Sono un Full-Stack Developer con oltre 4 anni di esperienza
-                nello sviluppo, nella manutenzione e nella modernizzazione di
-                applicazioni web enterprise.
-            </p>
-
-            <p>
-                Lavoro principalmente con Java, Spring Boot e Angular,
-                occupandomi dell'intero ciclo di sviluppo: dal backend e dalle
-                API REST fino al frontend e all'integrazione con database
-                relazionali.
-            </p>
-        </div>
-    </div>
-
-    <div class="about__education">
-        <span class="about__label">Education</span>
-
-        <div>
-            <h3>Ingegneria Informatica</h3>
-            <p>Università degli Studi Roma Tre</p>
-        </div>
-
-        <span>2024 — Present</span>
-    </div>
+    <span>2024 — Present</span>
+  </div>
 </section>
 
 <script>
@@ -51,102 +50,113 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
   const aboutStatement = document.querySelector(".about__statement");
   const aboutMuted = document.querySelector(".about__muted");
   const aboutAccent = document.querySelector(".about__accent");
   const aboutDescription = document.querySelector(".about__description");
   const aboutEducation = document.querySelector(".about__education");
 
-  if (aboutStatement) {
-    gsap.fromTo(
-      aboutStatement,
-      {
-        opacity: 0,
-        y: 100,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: aboutStatement,
-          start: "top 80%",
-          toggleActions: "restart none restart none",
+  if (!prefersReducedMotion) {
+    if (aboutStatement && aboutMuted) {
+      gsap.fromTo(
+        aboutMuted,
+        { color: "rgba(245, 245, 245, 0.25)" },
+        {
+          color: "rgba(245, 245, 245, 1)",
+          scrollTrigger: {
+            trigger: aboutStatement,
+            start: "top 65%",
+            end: "bottom 45%",
+            scrub: 1,
+          },
         },
-      }
-    );
-  }
+      );
+    }
 
-  if (aboutMuted) {
-    gsap.to(aboutMuted, {
-      color: "rgba(245, 245, 245, 1)",
-      scrollTrigger: {
-        trigger: aboutStatement,
-        start: "top 65%",
-        end: "bottom 45%",
-        scrub: 1,
-      },
-    });
-  }
-
-  if (aboutAccent) {
-    gsap.fromTo(
-      aboutAccent,
-      {
-        opacity: 0.25,
-      },
-      {
-        opacity: 1,
-        scrollTrigger: {
-          trigger: aboutStatement,
-          start: "top 60%",
-          end: "bottom 40%",
-          scrub: 1,
+    if (aboutStatement && aboutAccent) {
+      gsap.fromTo(
+        aboutAccent,
+        { opacity: 0.25 },
+        {
+          opacity: 1,
+          scrollTrigger: {
+            trigger: aboutStatement,
+            start: "top 60%",
+            end: "bottom 40%",
+            scrub: 1,
+          },
         },
-      }
-    );
-  }
+      );
+    }
 
-  if (aboutDescription) {
-    gsap.fromTo(
-      aboutDescription,
-      {
-        opacity: 0,
-        y: 60,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: aboutDescription,
-          start: "top 82%",
-          toggleActions: "restart none restart none",
+    if (aboutStatement) {
+      gsap.fromTo(
+        aboutStatement,
+        {
+          opacity: 0,
+          y: 100,
         },
-      }
-    );
-  }
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: aboutStatement,
+            start: "top 80%",
+            toggleActions: "restart none restart none",
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    }
 
-  if (aboutEducation) {
-    gsap.fromTo(
-      aboutEducation,
-      {
-        opacity: 0,
-        y: 40,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: aboutEducation,
-          start: "top 85%",
-          toggleActions: "restart none restart none",
+    if (aboutDescription) {
+      gsap.fromTo(
+        aboutDescription,
+        {
+          opacity: 0,
+          y: 60,
         },
-      }
-    );
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: aboutDescription,
+            start: "top 82%",
+            toggleActions: "restart none restart none",
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    }
+
+    if (aboutEducation) {
+      gsap.fromTo(
+        aboutEducation,
+        {
+          opacity: 0,
+          y: 40,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: aboutEducation,
+            start: "top 85%",
+            toggleActions: "restart none restart none",
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    }
   }
 </script>

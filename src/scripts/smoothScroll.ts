@@ -4,53 +4,77 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
+
+ScrollTrigger.config({
+  limitCallbacks: true,
+});
+
 const lenis = new Lenis({
-  duration: 1.1,
-  smoothWheel: true,
+  duration: prefersReducedMotion ? 0 : 1.1,
+  smoothWheel: !prefersReducedMotion,
   wheelMultiplier: 0.9,
 });
 
 lenis.on("scroll", ScrollTrigger.update);
 
-const navbar = document.querySelector(".navbar");
+/* =========================
+   NAVBAR
+   ========================= */
+
+const navbar = document.querySelector<HTMLElement>(".navbar");
 
 let navbarHidden = false;
+
+const setNavbarVisibility = (hidden: boolean) => {
+  if (!navbar || navbarHidden === hidden) return;
+
+  navbarHidden = hidden;
+
+  gsap.killTweensOf(navbar);
+
+  if (prefersReducedMotion) {
+    gsap.set(navbar, {
+      yPercent: hidden ? -120 : 0,
+    });
+
+    return;
+  }
+
+  gsap.to(navbar, {
+    yPercent: hidden ? -120 : 0,
+    duration: 0.45,
+    ease: "power3.out",
+    overwrite: true,
+  });
+};
 
 lenis.on("scroll", ({ scroll, direction }) => {
   if (!navbar) return;
 
-  if (direction === 1 && scroll > 120 && !navbarHidden) {
-    navbarHidden = true;
-
-    gsap.to(navbar, {
-      yPercent: -120,
-      duration: 0.45,
-      ease: "power3.out",
-    });
+  if (scroll < 50) {
+    setNavbarVisibility(false);
+    return;
   }
 
-  if (direction === -1 && navbarHidden) {
-    navbarHidden = false;
-
-    gsap.to(navbar, {
-      yPercent: 0,
-      duration: 0.45,
-      ease: "power3.out",
-    });
+  if (direction === 1 && scroll > 120) {
+    setNavbarVisibility(true);
+    return;
   }
 
-  if (scroll < 50 && navbarHidden) {
-    navbarHidden = false;
-
-    gsap.to(navbar, {
-      yPercent: 0,
-      duration: 0.45,
-      ease: "power3.out",
-    });
+  if (direction === -1) {
+    setNavbarVisibility(false);
   }
 });
 
-const anchorLinks = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
+/* =========================
+   ANCHOR LINKS
+   ========================= */
+
+const anchorLinks =
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
 
 anchorLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
@@ -62,13 +86,17 @@ anchorLinks.forEach((link) => {
       event.preventDefault();
 
       lenis.scrollTo(0, {
-        duration: 1.1,
+        duration: prefersReducedMotion ? 0 : 1.1,
       });
 
       return;
     }
 
-    const target = document.querySelector<HTMLElement>(href);
+    const id = href.slice(1);
+
+    if (!id) return;
+
+    const target = document.getElementById(id);
 
     if (!target) return;
 
@@ -76,15 +104,59 @@ anchorLinks.forEach((link) => {
 
     lenis.scrollTo(target, {
       offset: 0,
-      duration: 1.1,
+      duration: prefersReducedMotion ? 0 : 1.1,
     });
   });
 });
+
+/* =========================
+   GSAP TICKER
+   ========================= */
 
 gsap.ticker.add((time) => {
   lenis.raf(time * 1000);
 });
 
 gsap.ticker.lagSmoothing(0);
+
+/* =========================
+   SCROLLTRIGGER REFRESH
+   ========================= */
+
+const refreshScrollTrigger = () => {
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
+};
+
+window.addEventListener("load", refreshScrollTrigger);
+
+if (document.fonts) {
+  document.fonts.ready.then(refreshScrollTrigger);
+}
+
+/*
+ * Refresh solo quando cambia realmente la larghezza.
+ * Le variazioni verticali della viewport mobile vengono ignorate.
+ */
+let previousWidth = window.innerWidth;
+let resizeFrame: number | null = null;
+
+window.addEventListener("resize", () => {
+  const currentWidth = window.innerWidth;
+
+  if (currentWidth === previousWidth) return;
+
+  previousWidth = currentWidth;
+
+  if (resizeFrame !== null) {
+    cancelAnimationFrame(resizeFrame);
+  }
+
+  resizeFrame = requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+    resizeFrame = null;
+  });
+});
 
 export default lenis;

@@ -1,5 +1,13 @@
 import gsap from "gsap";
 
+const prefersReducedMotion = window.matchMedia(
+	"(prefers-reduced-motion: reduce)",
+).matches;
+
+const canUseInteractiveMotion =
+	window.matchMedia("(pointer: fine)").matches &&
+	!prefersReducedMotion;
+
 const cursor = document.querySelector<HTMLElement>(".cursor");
 const codeHoverElements =
 	document.querySelectorAll<HTMLElement>(".js-code-hover");
@@ -8,7 +16,15 @@ const trailHoverElements =
 const mailHoverElements =
 	document.querySelectorAll<HTMLElement>(".js-mail-hover");
 
-if (cursor && window.matchMedia("(pointer: fine)").matches) {
+let trailActive = false;
+let trailStopTimeout: number | null = null;
+let mouseX = 0;
+let mouseY = 0;
+let smoothX = 0;
+let smoothY = 0;
+let trailAnimationFrame: number | null = null;
+
+if (cursor && canUseInteractiveMotion) {
 	gsap.set(cursor, {
 		xPercent: -50,
 		yPercent: -50,
@@ -25,8 +41,16 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
 	});
 
 	window.addEventListener("mousemove", (event) => {
-		moveX(event.clientX);
-		moveY(event.clientY);
+		mouseX = event.clientX;
+		mouseY = event.clientY;
+
+		moveX(mouseX);
+		moveY(mouseY);
+
+		if (!trailActive) {
+			smoothX = mouseX;
+			smoothY = mouseY;
+		}
 	});
 
 	const interactiveElements =
@@ -52,18 +76,52 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
 		});
 	});
 
-	let trailActive = false;
-	let lastTrailTime = 0;
-
 	trailHoverElements.forEach((element) => {
-		element.addEventListener("mouseenter", () => {
+		element.addEventListener("mouseenter", (event) => {
+			if (trailStopTimeout !== null) {
+				clearTimeout(trailStopTimeout);
+				trailStopTimeout = null;
+			}
+
 			trailActive = true;
+
+			mouseX = event.clientX;
+			mouseY = event.clientY;
+
+			smoothX = mouseX;
+			smoothY = mouseY;
+
 			cursor.classList.add("is-trail");
+
+			if (trailAnimationFrame === null) {
+				drawTrail();
+			}
 		});
 
 		element.addEventListener("mouseleave", () => {
 			trailActive = false;
+
 			cursor.classList.remove("is-trail");
+
+			trailStopTimeout = window.setTimeout(() => {
+				trailPoints.length = 0;
+
+				if (trailAnimationFrame !== null) {
+					cancelAnimationFrame(trailAnimationFrame);
+					trailAnimationFrame = null;
+				}
+
+				if (ctx) {
+					ctx.clearRect(
+						0,
+						0,
+						window.innerWidth,
+						window.innerHeight,
+					);
+				}
+
+				trailStopTimeout = null;
+			}, 300);
 		});
 	});
 
@@ -79,12 +137,6 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
 	};
 
 	const trailPoints: TrailPoint[] = [];
-
-	let mouseX = 0;
-	let mouseY = 0;
-
-	let smoothX = 0;
-	let smoothY = 0;
 
 	const resizeCanvas = () => {
 		if (!canvas) return;
@@ -106,18 +158,8 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
 
 	window.addEventListener("resize", resizeCanvas);
 
-	window.addEventListener("mousemove", (event) => {
-		mouseX = event.clientX;
-		mouseY = event.clientY;
-
-		if (!trailActive) {
-			smoothX = mouseX;
-			smoothY = mouseY;
-		}
-	});
-
 	const drawTrail = () => {
-		requestAnimationFrame(drawTrail);
+		trailAnimationFrame = requestAnimationFrame(drawTrail);
 
 		if (!ctx || !canvas) return;
 
@@ -235,8 +277,6 @@ if (cursor && window.matchMedia("(pointer: fine)").matches) {
 
 		ctx.shadowBlur = 0;
 	};
-
-	drawTrail();
 
 	mailHoverElements.forEach((element) => {
 		element.addEventListener("mouseenter", () => {
