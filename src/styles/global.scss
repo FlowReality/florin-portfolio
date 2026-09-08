@@ -611,6 +611,8 @@ a {
 	&__details {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
+		gap: clamp(32px, 6vw, 100px);
+		align-items: center;
 
 		margin-top: 120px;
 	}
@@ -1485,4 +1487,8 @@ button:focus-visible {
 	.cursor-trail-canvas {
 		display: none !important;
 	}
+}
+
+.cursor.is-mercury {
+	opacity: 0;
 }
