@@ -52,7 +52,20 @@ const { title = "Florin Sandu — Software Engineer" } = Astro.props;
   </head>
 
   <body>
-    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor" aria-hidden="true">
+      <div class="cursor__code">
+        <span>{}</span>
+        <span>&lt;/&gt;</span>
+        <span>01</span>
+        <span>λ</span>
+        <span>[]</span>
+        <span>::</span>
+        <span>#</span>
+        <span>&lt;/&gt;</span>
+      </div>
+      <div class="cursor__label">MAIL ↗</div>
+    </div>
+    <canvas class="cursor-trail-canvas" aria-hidden="true"></canvas>
     <slot />
     <script>
       import "../scripts/smoothScroll";

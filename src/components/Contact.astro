@@ -7,7 +7,7 @@
   <div class="contact__main">
     <p class="contact__eyebrow">Hai un progetto, un'idea o un'opportunità?</p>
 
-    <a class="contact__email" href="mailto:f.sandu@outlook.com">
+    <a class="contact__email js-mail-hover" href="mailto:f.sandu@outlook.com">
       REALIZZIAMOLO.
     </a>
 
@@ -210,5 +210,35 @@
     document.addEventListener("DOMContentLoaded", initContactAnimation);
   } else {
     initContactAnimation();
+  }
+
+  const magneticEmail = document.querySelector<HTMLElement>(".js-mail-hover");
+
+  if (magneticEmail) {
+    magneticEmail.addEventListener("mousemove", (event) => {
+      const rect = magneticEmail.getBoundingClientRect();
+
+      const x = event.clientX - rect.left - rect.width / 2;
+
+      const y = event.clientY - rect.top - rect.height / 2;
+
+      gsap.to(magneticEmail, {
+        x: x * 0.08,
+        y: y * 0.12,
+        duration: 0.45,
+        ease: "power3.out",
+        overwrite: true,
+      });
+    });
+
+    magneticEmail.addEventListener("mouseleave", () => {
+      gsap.to(magneticEmail, {
+        x: 0,
+        y: 0,
+        duration: 0.8,
+        ease: "elastic.out(1, 0.35)",
+        overwrite: true,
+      });
+    });
   }
 </script>

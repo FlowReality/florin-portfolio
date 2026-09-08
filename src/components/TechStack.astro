@@ -1,20 +1,23 @@
 <section class="tech-stack" id="tech">
-
   <div class="tech-stack__header">
     <span>Competenze</span>
     <span>Tech Stack</span>
   </div>
 
   <div class="tech-stack__groups">
-
     <article class="tech-group">
       <span class="tech-group__number">01</span>
 
       <div class="tech-group__content">
         <h2>BACKEND</h2>
 
-        <p>
-          Java / Spring Boot / PHP / Python / C++ / C
+        <p class="tech-group__skills">
+          <span>Java</span>
+          <span>Spring Boot</span>
+          <span>PHP</span>
+          <span>Python</span>
+          <span>C++</span>
+          <span>C</span>
         </p>
       </div>
     </article>
@@ -25,9 +28,14 @@
       <div class="tech-group__content">
         <h2>FRONTEND</h2>
 
-        <p>
-          Angular / TypeScript / JavaScript / HTML / CSS /
-          React Native / Flutter
+        <p class="tech-group__skills">
+          <span>Angular</span>
+          <span>TypeScript</span>
+          <span>JavaScript</span>
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>React Native</span>
+          <span>Flutter</span>
         </p>
       </div>
     </article>
@@ -38,8 +46,11 @@
       <div class="tech-group__content">
         <h2>DATABASE</h2>
 
-        <p>
-          Oracle / PostgreSQL / MySQL / SQL
+        <p class="tech-group__skills">
+          <span>Oracle</span>
+          <span>PostgreSQL</span>
+          <span>MySQL</span>
+          <span>SQL</span>
         </p>
       </div>
     </article>
@@ -50,15 +61,24 @@
       <div class="tech-group__content">
         <h2>TOOLS</h2>
 
-        <p>
-          Docker / Jenkins / Git / GitLab / Maven / Gradle /
-          JUnit / Postman / Swagger / Jira / Linux / JBoss / WildFly
+        <p class="tech-group__skills">
+          <span>Docker</span>
+          <span>Jenkins</span>
+          <span>Git</span>
+          <span>GitLab</span>
+          <span>Maven</span>
+          <span>Gradle</span>
+          <span>JUnit</span>
+          <span>Postman</span>
+          <span>Swagger</span>
+          <span>Jira</span>
+          <span>Linux</span>
+          <span>JBoss</span>
+          <span>WildFly</span>
         </p>
       </div>
     </article>
-
   </div>
-
 </section>
 
 <script>
@@ -92,7 +112,7 @@
         opacity: 0.4,
         y: 0,
         duration: 0.5,
-      }
+      },
     );
 
     tl.fromTo(
@@ -107,7 +127,7 @@
         duration: 0.9,
         ease: "power4.out",
       },
-      "-=0.3"
+      "-=0.3",
     );
 
     tl.fromTo(
@@ -122,7 +142,49 @@
         duration: 0.7,
         ease: "power3.out",
       },
-      "-=0.5"
+      "-=0.5",
     );
+  });
+
+  const skillGroups = document.querySelectorAll<HTMLElement>(
+    ".tech-group__skills",
+  );
+
+  skillGroups.forEach((group) => {
+    const skills = group.querySelectorAll<HTMLElement>("span");
+
+    skills.forEach((skill) => {
+      skill.addEventListener("mouseenter", () => {
+        group.classList.add("has-active-skill");
+
+        skills.forEach((otherSkill) => {
+          otherSkill.classList.toggle("is-active", otherSkill === skill);
+        });
+
+        gsap.to(skill, {
+          y: -5,
+          scale: 1.06,
+          duration: 0.35,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      });
+
+      skill.addEventListener("mouseleave", () => {
+        group.classList.remove("has-active-skill");
+
+        skills.forEach((otherSkill) => {
+          otherSkill.classList.remove("is-active");
+        });
+
+        gsap.to(skill, {
+          y: 0,
+          scale: 1,
+          duration: 0.55,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      });
+    });
   });
 </script>

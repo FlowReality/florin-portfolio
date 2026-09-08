@@ -8,7 +8,7 @@
     <div>
       <p class="career__eyebrow">Fata Informatica</p>
 
-      <h2>
+      <h2 class="js-trail-hover">
         FULL-STACK<br />
         DEVELOPER
       </h2>
@@ -322,4 +322,100 @@
       },
     );
   }
+
+  const careerHoverItems =
+    document.querySelectorAll<HTMLElement>(".career-item");
+
+  careerHoverItems.forEach((item) => {
+    const title = item.querySelector<HTMLElement>("h3");
+    const number = item.querySelector<HTMLElement>(".career-item__number");
+    const stack = item.querySelector<HTMLElement>(".career-item__stack");
+
+    const moveX = gsap.quickTo(item, "--mouse-x", {
+      duration: 0.35,
+      ease: "power3.out",
+    });
+
+    const moveY = gsap.quickTo(item, "--mouse-y", {
+      duration: 0.35,
+      ease: "power3.out",
+    });
+
+    item.addEventListener("mousemove", (event) => {
+      const rect = item.getBoundingClientRect();
+
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      moveX(x);
+      moveY(y);
+
+      // Movimento leggerissimo del contenuto
+      const normalizedX = x / rect.width - 0.5;
+      const normalizedY = y / rect.height - 0.5;
+
+      if (title) {
+        gsap.to(title, {
+          x: normalizedX * 12,
+          y: normalizedY * 6,
+          duration: 0.45,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      }
+
+      if (number) {
+        gsap.to(number, {
+          x: normalizedX * -8,
+          y: normalizedY * -4,
+          duration: 0.55,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      }
+
+      if (stack) {
+        gsap.to(stack, {
+          x: normalizedX * 7,
+          duration: 0.5,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      }
+    });
+
+    item.addEventListener("mouseenter", () => {
+      item.classList.add("is-hovered");
+    });
+
+    item.addEventListener("mouseleave", () => {
+      item.classList.remove("is-hovered");
+
+      if (title) {
+        gsap.to(title, {
+          x: 0,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+        });
+      }
+
+      if (number) {
+        gsap.to(number, {
+          x: 0,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+        });
+      }
+
+      if (stack) {
+        gsap.to(stack, {
+          x: 0,
+          duration: 0.7,
+          ease: "power3.out",
+        });
+      }
+    });
+  });
 </script>
